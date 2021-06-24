@@ -122,15 +122,24 @@ function handleClick(evt) {
 
   // check for tie
   // TODO: check if all cells in board are filled; if so call, call endGame
-  if (board.every(row => {
-    row.every(cell => typeof cell === "number")
-  })) {
+  if (checkForTie()) {
     endGame("It's a tie!");
   }
 
   // switch players
   // TODO: switch currPlayer 1 <-> 2
   currPlayer = currPlayer === 1 ? 2 : 1;
+}
+
+function checkForTie() {
+  for (let i = 0; i < HEIGHT; i++) {
+    for (let j= 0; j < WIDTH; j++) {
+      if (board[i][j] === null) {
+        return false;
+      }
+    }
+  }
+  return true;
 }
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
@@ -146,10 +155,25 @@ function checkForWin() {
 
     // TODO: Check four cells to see if they're all legal & all color of current
     // player
-    if (cells.some(cell => cell === undefined)) return false;
-    if (cells.every(cell => cell === 1)) return true;
-    if (cells.every(cell => cell === 2)) return true;
 
+    // let newCells = [];
+    // for (let cell of cells) {
+    //   newCells.push(board[cell[0],cell[1]])
+    // }
+    // [y, x]
+    
+    // for (let [y,x] of cells) {
+    //   if (board[y] === undefined) return false;
+    //   if (board[y][x] === undefined) return false;
+    // }
+    
+    // if (cells.every(([y,x]) => board[y][x] === 1)) return true;
+    // else if (cells.every(([y,x]) => board[y][x] === 2)) return true;
+    // else return false;
+
+    return cells.every(([y,x]) => 
+      board[y] !== undefined && (board[y][x] === currPlayer)
+    );
 
   }
 
@@ -174,6 +198,7 @@ function checkForWin() {
       }
     }
   }
+  return false;
 }
 
 makeBoard();
