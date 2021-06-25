@@ -73,9 +73,9 @@ function makeHtmlBoard() {
 function findSpotForCol(x) {
   // TODO: write the real version of this, rather than always returning 0
   let bottom = HEIGHT-1;
-  for (let i = bottom; i >= 0; i--) {
-    if (board[i][x] === null) {
-      return i;
+  for (let y = bottom; y >= 0; y--) {
+    if (board[y][x] === null) {
+      return y;
     }
   }
   return null;
@@ -88,6 +88,7 @@ function placeInTable(y, x) {
   let piece = document.createElement("div");
   piece.setAttribute("class","piece");
   piece.classList.add(`p${currPlayer}`);
+  piece.classList.add("fall")
   let placed = document.getElementById(`${y}-${x}`);
   placed.append(piece);
 }
@@ -131,6 +132,7 @@ function handleClick(evt) {
   currPlayer = currPlayer === 1 ? 2 : 1;
 }
 
+// consider x and y 
 function checkForTie() {
   for (let i = 0; i < HEIGHT; i++) {
     for (let j= 0; j < WIDTH; j++) {
